@@ -1,0 +1,12 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: react-weather
+  labels:
+    app: react-weather
+spec:
+  to:
+    kind: Service
+    name: react-weather
+  port:
+    targetPort: http

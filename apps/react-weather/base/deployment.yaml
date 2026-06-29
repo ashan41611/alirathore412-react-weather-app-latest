@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-weather
+  labels:
+    app: react-weather
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-weather
+  template:
+    metadata:
+      labels:
+        app: react-weather
+    spec:
+      containers:
+      - name: react-weather
+        image: alirathore412/react-weather-app:latest
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 80
