@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: currency-converter
+  namespace: app-dev
+  labels:
+    app: currency-converter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: currency-converter
+  template:
+    metadata:
+      labels:
+        app: currency-converter
+    spec:
+      containers:
+      - name: currency-converter
+        image: alirathore412/currency-converter-app:latest
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: currency-converter
+  namespace: app-dev
+  labels:
+    app: currency-converter
+spec:
+  selector:
+    app: currency-converter
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: currency-converter
+  namespace: app-dev
+  labels:
+    app: currency-converter
+spec:
+  to:
+    kind: Service
+    name: currency-converter
+  port:
+    targetPort: http
